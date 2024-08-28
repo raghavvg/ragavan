@@ -1,8 +1,8 @@
 streamlit
 pickle-mixin
-pandas==2.2.2
-numpy==1.26.4
+pandas
+numpy
 tensorflow
 scikit-learn
-h5py==3.11.0
-protobuf==4.25.4
+h5py
+protobuf
