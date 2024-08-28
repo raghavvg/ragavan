@@ -1,5 +1,6 @@
 streamlit
-sklearn
-pandas
-numpy
+scikit-learn
+pandas==2.1.2
+numpy>=1.26.0,<2
 tensorflow
+pickle
