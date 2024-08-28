@@ -1,7 +1,7 @@
 streamlit==1.38.0
 pandas==2.2.2
 numpy==1.26.4
-tensorflow==2.17.0
-scikit-learn==1.5.1
+tensorflow
+scikit-learn
 h5py==3.11.0
 protobuf==4.25.4
