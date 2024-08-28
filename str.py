@@ -5,10 +5,18 @@ from tensorflow.keras.models import load_model
 import pickle
 
 # Load the saved encoder and model
-with open('encoder.pkl', 'rb') as f:
-    encoder = pickle.load(f)
+try:
+    with open('encoder.pkl', 'rb') as f:
+        encoder = pickle.load(f)
+except FileNotFoundError:
+    st.error("Encoder file not found. Please upload the correct 'encoder.pkl' file.")
+    st.stop()
 
-model = load_model('updated_file1.h5')
+try:
+    model = load_model('updated_file1.h5')
+except OSError:
+    st.error("Model file not found. Please upload the correct 'updated_file1.h5' file.")
+    st.stop()
 
 # Define the feature names
 important_features = ['gill-spacing', 'cap-color', 'ring-type', 'veil-color', 'gill-color', 'stalk-surface-below-ring']
@@ -27,22 +35,26 @@ stalk_surface_below_ring = st.selectbox("Stalk Surface Below Ring", ["smooth", "
 
 # When the user clicks "Predict"
 if st.button("Predict"):
-    # Create a dataframe for the input
-    input_data = pd.DataFrame({
-        'gill-spacing': [gill_spacing],
-        'cap-color': [cap_color],
-        'ring-type': [ring_type],
-        'veil-color': [veil_color],
-        'gill-color': [gill_color],
-        'stalk-surface-below-ring': [stalk_surface_below_ring]
-    })
+    try:
+        # Create a dataframe for the input
+        input_data = pd.DataFrame({
+            'gill-spacing': [gill_spacing],
+            'cap-color': [cap_color],
+            'ring-type': [ring_type],
+            'veil-color': [veil_color],
+            'gill-color': [gill_color],
+            'stalk-surface-below-ring': [stalk_surface_below_ring]
+        })
 
-    # One-hot encode the input data
-    input_encoded = encoder.transform(input_data).astype('float32')
+        # One-hot encode the input data
+        input_encoded = encoder.transform(input_data).astype('float32')
 
-    # Predict the class using the model
-    prediction = model.predict(input_encoded)
+        # Predict the class using the model
+        prediction = model.predict(input_encoded)
 
-    # Display the result
-    prediction_label = "Poisonous" if prediction[0] > 0.5 else "Edible"
-    st.write(f"The mushroom is likely **{prediction_label}**.")
+        # Display the result
+        prediction_label = "Poisonous" if prediction[0] > 0.5 else "Edible"
+        st.write(f"The mushroom is likely **{prediction_label}**.")
+
+    except Exception as e:
+        st.error(f"An error occurred during prediction: {str(e)}")
