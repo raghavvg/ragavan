@@ -1,14 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import tensorflow as tf
+from tensorflow.keras.models import load_model
 import pickle
 
 # Load the saved encoder and model
 with open('encoder.pkl', 'rb') as f:
     encoder = pickle.load(f)
 
-model = tf.keras.models.load_model('updated_file1.h5')
+model = load_model('updated_file1.h5')
 
 # Define the feature names
 important_features = ['gill-spacing', 'cap-color', 'ring-type', 'veil-color', 'gill-color', 'stalk-surface-below-ring']
